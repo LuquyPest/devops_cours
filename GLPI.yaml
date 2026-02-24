@@ -1,18 +1,30 @@
 services:
-  npm:
-    image: jc21/nginx-proxy-manager:latest
-    container_name: npm
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik
     restart: unless-stopped
+    command:
+      - --api=false
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+
+      - --certificatesresolvers.letsencrypt.acme.email=${EMAIL}
+      - --certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
+      - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
+
+      - --entrypoints.web.http.redirections.entrypoint.to=websecure
+      - --entrypoints.web.http.redirections.entrypoint.scheme=https
     ports:
       - "80:80"
-      - "81:81"
       - "443:443"
     volumes:
-      - npm_data:/data
-      - npm_letsencrypt:/etc/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik_letsencrypt:/letsencrypt
     networks:
       - proxy
-      - monitoring
 
   mariadb:
     image: mariadb:11
@@ -27,7 +39,6 @@ services:
       - mariadb_data:/var/lib/mysql
     networks:
       - internal
-      - monitoring
 
   glpi:
     image: diouxx/glpi:latest
@@ -42,7 +53,12 @@ services:
     networks:
       - internal
       - proxy
-      - monitoring
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.glpi.rule=Host(`glpi.daryu.xyz`)
+      - traefik.http.routers.glpi.entrypoints=websecure
+      - traefik.http.routers.glpi.tls.certresolver=letsencrypt
+      - traefik.http.services.glpi.loadbalancer.server.port=80
 
   uptime-kuma:
     image: louislam/uptime-kuma:1
@@ -51,11 +67,16 @@ services:
     volumes:
       - kuma_data:/app/data
     networks:
-      - monitoring
+      - proxy
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.kuma.rule=Host(`status.daryu.xyz`)
+      - traefik.http.routers.kuma.entrypoints=websecure
+      - traefik.http.routers.kuma.tls.certresolver=letsencrypt
+      - traefik.http.services.kuma.loadbalancer.server.port=3001
 
 volumes:
-  npm_data:
-  npm_letsencrypt:
+  traefik_letsencrypt:
   mariadb_data:
   glpi_data:
   kuma_data:
@@ -65,9 +86,6 @@ networks:
     driver: bridge
   internal:
     driver: bridge
-  monitoring:
-
-
 
 
 
@@ -80,3 +98,4 @@ networks:
 
 
     driver: bridge
+
