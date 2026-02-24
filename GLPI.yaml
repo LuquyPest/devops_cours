@@ -1,4 +1,19 @@
 services:
+  npm:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: npm
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - npm_data:/data
+      - npm_letsencrypt:/etc/letsencrypt
+    networks:
+      - proxy
+      - monitoring
+
   mariadb:
     image: mariadb:11
     container_name: glpi-mariadb
@@ -12,6 +27,7 @@ services:
       - mariadb_data:/var/lib/mysql
     networks:
       - internal
+      - monitoring
 
   glpi:
     image: diouxx/glpi:latest
@@ -26,32 +42,41 @@ services:
     networks:
       - internal
       - proxy
+      - monitoring
 
-  npm:
-    image: jc21/nginx-proxy-manager:latest
-    container_name: nginx-proxy-manager
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "81:81"
-      - "443:443"
-    environment:
-      TZ: Europe/Paris
     volumes:
-      - npm_data:/data
-      - npm_letsencrypt:/etc/letsencrypt
+      - kuma_data:/app/data
     networks:
-      - proxy
+      - monitoring
 
 volumes:
-  mariadb_data:
-  glpi_data:
   npm_data:
   npm_letsencrypt:
+  mariadb_data:
+  glpi_data:
+  kuma_data:
 
 networks:
+  proxy:
+    driver: bridge
   internal:
     driver: bridge
-  proxy:
+  monitoring:
+
+
+
+
+
+
+
+
+
+
+
+
 
     driver: bridge
