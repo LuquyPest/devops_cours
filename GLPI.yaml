@@ -45,6 +45,15 @@ services:
     networks:
       - proxy
 
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      - /opt/uptime-kuma:/app/data
+
 volumes:
   mariadb_data:
   glpi_data:
