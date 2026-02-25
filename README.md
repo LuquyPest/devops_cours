@@ -21,6 +21,7 @@
 
 * UI simple et sécu possible OTP
 * Reverse Proxy
+* Domaine utilisé daryu.xyz : glpi.daryu.xyz ----- status.daryu.xyz
 
 ---
 
