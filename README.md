@@ -1,8 +1,8 @@
-# 📌 Projet DevOps — Stack GLPI
+#  Projet DevOps — Stack GLPI
 
 ---
 
-## 🧩 A faire
+##  A faire
 
 * Pipe line: git push --> ssh vm : restart docker compose
 * Ansible : provisionne la vm Ubuntu serveur --> install docker --> créa dossier --> clone repo (si possible)
@@ -11,13 +11,13 @@
 
 ---
 
-## ✅ Déjà réalisé
+##  Déjà réalisé
 
-### 🐳 Docker compose : NPM + GLPI + MARIADB + UPTIME-KUMA
+###  Docker compose : NPM + GLPI + MARIADB + UPTIME-KUMA
 
 ---
 
-### 🌐 NPM
+###  NPM
 
 * UI simple et sécu possible OTP
 * Reverse Proxy
@@ -25,26 +25,26 @@
 
 ---
 
-### 🧾 GLPI
+###  GLPI
 
 * bah c'est GLPI quoi
 
 ---
 
-### 🗄️ MARIADB
+###  MARIADB
 
 * bah c'est la DB pour GLPI
 
 ---
 
-### 📡 UPTIME-KUMA
+###  UPTIME-KUMA
 
 * UI simple et sécu possible OTP
 * Permet de superviser l'uptime des service, avec Dashboard pour les clients et envoie de log uptime sur (Discord, sms, mail…)
 
 ---
 
-## ⚙️ Docker compos
+##  Docker compos
 
 ```bash
 sudo docker compose -f GLPI.yml up -d
@@ -59,7 +59,7 @@ sudo docker compose -f GLPI.yml up -d
 
 ---
 
-## 🌍 Network
+##  Network
 
 * internal : DB + GLPI
 * Proxy : NPM + GLPI
