@@ -55,7 +55,7 @@ sudo docker compose -f GLPI.yml up -d
 * network divisé ( pour mieux Reigner ),
 * .env ( possibilité de faire des secret, mais franchement inutilisé dans le monde de l'entreprise actuellement)
 * service en unless-stop
-* des Dependance de service
+* Dependance de service
 
 ---
 
