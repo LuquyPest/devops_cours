@@ -5,42 +5,16 @@ on:
     branches:
       - main
 
-concurrency:
-  group: deploy-production
-  cancel-in-progress: true
-
 jobs:
   deploy:
-    name: Deploy with Docker Compose
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup SSH key
-        shell: bash
+      - name: Go to project and deploy
         run: |
-          set -euo pipefail
-          mkdir -p ~/.ssh
-          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-
-          test -n "${{ secrets.SERVER_HOST }}"
-          test -n "${{ secrets.SERVER_USER }}"
-          test -n "${{ secrets.SERVER_APP_PATH }}"
-
-          ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts
-
-      - name: Deploy on remote server
-        shell: bash
-        run: |
-          ssh -i ~/.ssh/id_ed25519 "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" << EOF
-            set -e
-            cd "${{ secrets.SERVER_APP_PATH }}"
-            git fetch origin
-            git reset --hard origin/main
-            docker compose config -q
-            sudo docker compose pull
-            sudo docker compose up -d --remove-orphans
-          EOF
+          cd /root/devops_cours
+          git fetch origin
+          git reset --hard origin/main
+          docker compose config -q
+          sudo docker compose pull
+          sudo docker compose up -d --remove-orphans
