@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Go to project and deploy
         run: |
-          cd /root1/devops_cours
+          cd /home/root1/devops_cours
           git fetch origin
           git reset --hard origin/main
           docker compose config -q
