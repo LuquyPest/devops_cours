@@ -1,68 +1,78 @@
-#  Projet DevOps — Stack GLPI
+# 🚀 DevOps Cours
+
+> 📚 Repository de cours et pratiques autour du DevOps, Git, CI/CD et outils modernes
 
 ---
 
-##  A faire
+## ✨ Description
 
-* Pipe line: git push --> ssh vm : restart docker compose
-* Ansible : provisionne la vm Ubuntu serveur --> install docker --> créa dossier --> clone repo (si possible)
-* tache cron : dump DB + save fichier GLPI --> envoie si possible stockage externe  ( Mais mieux utiliser proxmox backup )
-* Peut être mise en place de Traefik ( déjà commencer à finir if good )
+Ce projet regroupe des ressources, exercices et exemples pratiques liés au **DevOps**.
 
----
+L'objectif est de comprendre et maîtriser :
 
-##  Déjà réalisé
-
-###  Docker compose : NPM + GLPI + MARIADB + UPTIME-KUMA
-
----
-
-###  NPM
-
-* UI simple et sécu possible OTP
-* Reverse Proxy
-* Domaine utilisé daryu.xyz : glpi.daryu.xyz ----- status.daryu.xyz
+* 🧑‍💻 Git & GitHub
+* 🔄 Intégration Continue (CI)
+* 🚀 Déploiement Continu (CD)
+* ⚙️ Automatisation des workflows
+* 📦 Bonnes pratiques DevOps
 
 ---
 
-###  GLPI
+## 🛠️ Stack utilisée
 
-* bah c'est GLPI quoi
-
----
-
-###  MARIADB
-
-* bah c'est la DB pour GLPI
+* Git / GitHub
+* GitHub Actions (CI/CD)
+* Docker
 
 ---
 
-###  UPTIME-KUMA
+## 📂 Structure du projet
 
-* UI simple et sécu possible OTP
-* Permet de superviser l'uptime des service, avec Dashboard pour les clients et envoie de log uptime sur (Discord, sms, mail…)
-
----
-
-##  Docker compos
-
-```bash
-sudo docker compose -f GLPI.yml up -d
+```
+devops_cours/
+│── .github/            # Workflows CI/CD
+│── docker-compose/yml/ # Docker
+│── README.md           # Documentation principale
 ```
 
-* une commande pour tous lancer
-* Tous les services dans le même
-* network divisé ( pour mieux Reigner ),
-* .env ( possibilité de faire des secret, mais franchement inutilisé dans le monde de l'entreprise actuellement)
-* service en unless-stop
-* Dependance de service
+---
+
+## ⚡ Installation
+
+Clone le repo :
+
+```bash
+git clone https://github.com/LuquyPest/devops_cours.git
+cd devops_cours
+```
+---
+
+* Vérifier les workflows GitHub Actions dans :
+
+```
+.github/workflows/
+```
 
 ---
 
-##  Network
+## 🔥 Fonctionnalités
 
-* internal : DB + GLPI
-* Proxy : NPM + GLPI
-* Monitoring : Full
+* ✔️ Apprentissage Git & GitHub
+* ✔️ Mise en place de pipelines CI/CD
+* ✔️ Tests automatisés
+* ✔️ Organisation DevOps
+* ✔️ Bonnes pratiques de déploiement
 
 ---
+
+
+## 👨‍💻 Auteur
+
+* **Daryu, Jimmyn Bastien, Marie**
+* GitHub : https://github.com/LuquyPest
+
+---
+
+## 📄 Licence
+
+Projet open-source – libre d’utilisation pour apprentissage.
