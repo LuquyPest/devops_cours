@@ -7,7 +7,7 @@ services:
       - --api.dashboard=true
       - --providers.docker=true
       - --providers.docker.exposedbydefault=false
-      - --providers.docker.network=proxy
+      - --providers.docker.network=monitoring
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       - --entrypoints.web.http.redirections.entrypoint.to=websecure
@@ -17,13 +17,12 @@ services:
       - --certificatesresolvers.letsencrypt.acme.httpchallenge=true
       - --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik_letsencrypt:/letsencrypt
     networks:
-      - proxy
       - monitoring
     labels:
       - traefik.enable=true
@@ -47,7 +46,6 @@ services:
       - mariadb_data:/var/lib/mysql
     networks:
       - internal
-      - monitoring
 
   glpi:
     image: diouxx/glpi:latest
@@ -61,11 +59,10 @@ services:
       - glpi_data:/var/www/html
     networks:
       - internal
-      - proxy
       - monitoring
     labels:
       - traefik.enable=true
-      - traefik.docker.network=proxy
+      - traefik.docker.network=monitoring
       - traefik.http.routers.glpi.rule=Host(`${GLPI_DOMAIN}`)
       - traefik.http.routers.glpi.entrypoints=websecure
       - traefik.http.routers.glpi.tls.certresolver=letsencrypt
@@ -79,10 +76,9 @@ services:
       - kuma_data:/app/data
     networks:
       - monitoring
-      - proxy
     labels:
       - traefik.enable=true
-      - traefik.docker.network=proxy
+      - traefik.docker.network=monitoring
       - traefik.http.routers.kuma.rule=Host(`${KUMA_DOMAIN}`)
       - traefik.http.routers.kuma.entrypoints=websecure
       - traefik.http.routers.kuma.tls.certresolver=letsencrypt
@@ -95,9 +91,6 @@ volumes:
   kuma_data:
 
 networks:
-  proxy:
-    driver: bridge
   internal:
-    driver: bridge
   monitoring:
     driver: bridge
