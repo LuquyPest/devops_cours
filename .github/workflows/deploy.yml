@@ -19,18 +19,27 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup SSH key
+        shell: bash
         run: |
+          set -euo pipefail
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+          test -n "${{ secrets.SERVER_HOST }}"
+          test -n "${{ secrets.SERVER_USER }}"
+          test -n "${{ secrets.SERVER_APP_PATH }}"
+
+          ssh-keyscan -H "${{ secrets.SERVER_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Deploy on remote server
+        shell: bash
         run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+          ssh -i ~/.ssh/id_ed25519 "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}" << EOF
             set -e
-            cd ${{ secrets.SERVER_APP_PATH }}
-            git pull origin main
+            cd "${{ secrets.SERVER_APP_PATH }}"
+            git fetch origin
+            git reset --hard origin/main
             docker compose config -q
             sudo docker compose pull
             sudo docker compose up -d --remove-orphans
