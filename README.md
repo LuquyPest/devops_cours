@@ -52,7 +52,7 @@ Ce projet met en place une infrastructure complète de supervision et gestion IT
 ├── .github/
 │   └── workflows/
 │       ├── deploy.yml
-│       └── trivy.yml
+│       └── trivy-secrets.yml
 ```
 
 ---
@@ -85,15 +85,16 @@ GLPI_ADMIN_PASSWORD=motdepasse_admin
 
 | Service        | URL |
 |----------------|-----|
-| GLPI           | https://glpi.tondomaine.fr |
-| Uptime Kuma    | https://status.tondomaine.fr |
-| Traefik        | https://traefik.tondomaine.fr |
+| GLPI           | https://glpi1.daryu.xyz |
+| Uptime Kuma    | https://status1.daryu.xyz |
+| Traefik        | https://traefik1.daryu.xyz |
 
 ---
 
 ## 🐳 Lancement du projet
 
 ```bash
+git clone "le projet"
 docker compose up -d
 ```
 
@@ -134,4 +135,4 @@ trivy fs --scanners secret --exit-code 1 .
 
 ## 👨‍💻 Auteur
 
-Projet réalisé dans un contexte DevOps / Admin Systèmes & Réseaux
+Daryu / Jimmy / Marie / Bastien
