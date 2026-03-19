@@ -108,7 +108,7 @@ services:
       - monitoring
     labels:
       - traefik.enable=true
-      - traefik.docker.network=monitoring
+      - traefik.docker.network=glpi_monitoring
       - traefik.http.routers.kuma.rule=Host(`${KUMA_DOMAIN}`)
       - traefik.http.routers.kuma.entrypoints=websecure
       - traefik.http.routers.kuma.tls=true
