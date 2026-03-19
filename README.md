@@ -1,78 +1,137 @@
-# 🚀 DevOps Cours
+# 📦 GLPI Monitoring Stack (Docker + Traefik + CI/CD)
 
-> 📚 Repository de cours et pratiques autour du DevOps, Git, CI/CD et outils modernes
+## 🚀 Description
 
----
+Ce projet met en place une infrastructure complète de supervision et gestion IT basée sur :
 
-## ✨ Description
-
-Ce projet regroupe des ressources, exercices et exemples pratiques liés au **DevOps**.
-
-L'objectif est de comprendre et maîtriser :
-
-* 🧑‍💻 Git & GitHub
-* 🔄 Intégration Continue (CI)
-* 🚀 Déploiement Continu (CD)
-* ⚙️ Automatisation des workflows
-* 📦 Bonnes pratiques DevOps
+- **GLPI** → gestion de parc IT  
+- **MariaDB** → base de données  
+- **Traefik** → reverse proxy + HTTPS automatique (Let's Encrypt)  
+- **Uptime Kuma** → monitoring des services  
+- **CI/CD GitHub Actions** → déploiement automatique  
+- **Trivy** → scan de sécurité (secrets)  
 
 ---
 
-## 🛠️ Stack utilisée
-
-* Git / GitHub
-* GitHub Actions (CI/CD)
-* Docker
-
----
-
-## 📂 Structure du projet
+## 🧱 Architecture
 
 ```
-devops_cours/
-│── .github/            # Workflows CI/CD
-│── docker-compose/yml/ # Docker
-│── README.md           # Documentation principale
+                🌍 Internet
+                     │
+                     ▼
+        🔐 Traefik (Reverse Proxy + HTTPS)
+                     │
+        ┌────────────┼────────────┐
+        ▼            ▼            ▼
+     🖥 GLPI     📊 Uptime Kuma   ⚙️ Dashboard Traefik
+        │
+        ▼
+     🗄 MariaDB (réseau interne sécurisé)
 ```
 
 ---
 
-## ⚡ Installation
+## ⚙️ Stack technique
 
-Clone le repo :
+- Docker & Docker Compose  
+- Traefik v3 (reverse proxy)  
+- MariaDB 11  
+- GLPI (latest)  
+- Uptime Kuma  
+- GitHub Actions (CI/CD)  
+- Trivy (security scan)  
+
+---
+
+## 📁 Structure du projet
+
+```
+.
+├── docker-compose.yml
+├── .env
+├── .github/
+│   └── workflows/
+│       ├── deploy.yml
+│       └── trivy.yml
+```
+
+---
+
+## 🔐 Configuration (.env)
+
+Créer un fichier `.env` :
+
+```
+LETSENCRYPT_EMAIL=ton.email@exemple.com
+
+TRAEFIK_DOMAIN=traefik.tondomaine.fr
+GLPI_DOMAIN=glpi.tondomaine.fr
+KUMA_DOMAIN=status.tondomaine.fr
+
+TRAEFIK_BASIC_AUTH=admin:hash_htpasswd
+
+DB_ROOT_PASSWORD=motdepasse_root
+DB_NAME=glpi
+DB_USER=glpi
+DB_PASSWORD=motdepasse_glpi
+
+GLPI_ADMIN_USER=admin
+GLPI_ADMIN_PASSWORD=motdepasse_admin
+```
+
+---
+
+## 🌐 Accès aux services
+
+| Service        | URL |
+|----------------|-----|
+| GLPI           | https://glpi.tondomaine.fr |
+| Uptime Kuma    | https://status.tondomaine.fr |
+| Traefik        | https://traefik.tondomaine.fr |
+
+---
+
+## 🐳 Lancement du projet
 
 ```bash
-git clone https://github.com/LuquyPest/devops_cours.git
-cd devops_cours
-```
----
-
-* Vérifier les workflows GitHub Actions dans :
-
-```
-.github/workflows/
+docker compose up -d
 ```
 
 ---
 
-## 🔥 Fonctionnalités
+## 🔁 CI/CD (Déploiement automatique)
 
-* ✔️ Apprentissage Git & GitHub
-* ✔️ Mise en place de pipelines CI/CD
-* ✔️ Tests automatisés
-* ✔️ Organisation DevOps
-* ✔️ Bonnes pratiques de déploiement
+Le déploiement se fait automatiquement via GitHub Actions.
+
+### Étapes :
+
+```
+1. Récupération du code
+2. Vérification docker-compose
+3. Pull des images Docker
+4. Redémarrage des containers
+```
 
 ---
 
+## 🔍 Sécurité (Trivy)
+
+```bash
+trivy fs --scanners secret --exit-code 1 .
+```
+
+---
+
+## 🔒 Sécurité mise en place
+
+- HTTPS automatique (Let's Encrypt)  
+- Dashboard Traefik protégé (Basic Auth)  
+- Réseau Docker interne  
+- Variables sensibles externalisées (.env)  
+- Scan de sécurité avec Trivy  
+
+---
 
 ## 👨‍💻 Auteur
 
-* **Daryu, Jimmyn Bastien, Marie**
-* GitHub : https://github.com/LuquyPest
-
----
-
-## 📄 Licence
-
-Projet open-source – libre d’utilisation pour apprentissage.
+Projet réalisé dans un contexte DevOps / Admin Systèmes & Réseaux
