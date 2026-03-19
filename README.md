@@ -94,7 +94,7 @@ GLPI_ADMIN_PASSWORD=motdepasse_admin
 ## 🐳 Lancement du projet
 
 ```bash
-git clone "le projet"
+git clone https://github.com/LuquyPest/devops_cours.git
 docker compose up -d
 ```
 
