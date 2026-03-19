@@ -1,20 +1,35 @@
-name: CD - Deploy to server
+name: CD - Deploy to server  
+# Nom du workflow (affiché dans GitHub Actions)
 
 on:
   push:
     branches:
-      - main
+      - main  
+# Déclenchement automatique à chaque push sur la branche main
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted  
+    # Le job s'exécute sur ton serveur (runner auto-hébergé)
 
     steps:
       - name: Go to project and deploy
         run: |
+          # Va dans le dossier du projet sur le serveur
           cd /home/root1/devops_cours
+
+          # Récupère les dernières infos du repo distant
           git fetch origin
+
+          # Force la version locale à être identique à main (⚠️ supprime les modifs locales)
           git reset --hard origin/main
+
+          # Vérifie que le docker-compose est valide (syntaxe)
           docker compose config -q
+
+          # Télécharge les dernières images Docker
           docker compose pull
+
+          # Redémarre les containers avec la nouvelle version
           docker compose up -d --remove-orphans
+          # --remove-orphans = supprime les anciens containers non utilisés
