@@ -78,19 +78,7 @@ DB_PASSWORD=motdepasse_glpi
 GLPI_ADMIN_USER=admin
 GLPI_ADMIN_PASSWORD=motdepasse_admin
 ```
-
 ---
-
-## 🌐 Accès aux services
-
-| Service        | URL |
-|----------------|-----|
-| GLPI           | https://glpi1.daryu.xyz |
-| Uptime Kuma    | https://status1.daryu.xyz |
-| Traefik        | https://traefik1.daryu.xyz |
-
----
-
 ## 🐳 Lancement du projet
 
 ```bash
