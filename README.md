@@ -19,7 +19,7 @@ Ce projet met en place une infrastructure complète de supervision et gestion IT
                 🌍 Internet
                      │
                      ▼
-        🔐 Traefik (Reverse Proxy + HTTPS)
+        🔐 Traefik
                      │
         ┌────────────┼────────────┐
         ▼            ▼            ▼
