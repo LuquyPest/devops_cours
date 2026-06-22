@@ -1,5 +1,3 @@
-# 📦 GLPI Monitoring Stack (Docker + Traefik + CI/CD)
-
 ## 🚀 Description
 
 Ce projet met en place une infrastructure complète de supervision et gestion IT basée sur :
